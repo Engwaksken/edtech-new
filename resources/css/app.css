@@ -10,3 +10,36 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+@layer base {
+    :root {
+        color-scheme: light;
+        scroll-behavior: smooth;
+    }
+
+    ::selection {
+        color: #102b25;
+        background-color: #d8f078;
+    }
+
+    a:focus-visible {
+        border-radius: 0.125rem;
+        outline: 2px solid currentColor;
+        outline-offset: 4px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
