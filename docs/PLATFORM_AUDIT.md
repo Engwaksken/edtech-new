@@ -2,7 +2,7 @@
 
 ## Scope and confidence
 
-Read-only static review of the checked-out `D:\projects\edtech-site` repository. No live site, database, production configuration, or external service was accessed. File presence establishes a code surface only—not deployment, usage, or successful runtime behavior. Destination repository docs were empty at review time.
+Read-only static review of the checked-out `D:\projects\edtech-site` repository plus unauthenticated GET observations of selected public pages at `https://www.edtech.hivecolab.com/` on 2026-10-23. No database, production configuration, external service, authenticated area, form submission, or file download was accessed. File presence establishes a code surface only—not deployment, usage, or successful runtime behavior. Public page observations are point-in-time and do not establish successful form or integration behavior.
 
 ## Runtime and architecture
 

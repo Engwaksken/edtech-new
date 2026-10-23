@@ -26,10 +26,10 @@ Only `admin/database/2026_08_04_event_reminders.sql` was found. It adds `reminde
 ## Authorized local export snapshot
 
 - The owner confirmed `C:\Users\HumbleKen\Downloads\vividfin_edtech_site.sql` belongs to the legacy EdTech site. Its header identifies MariaDB 10.6.28 and database `vividfin_edtech_site`.
-- The export imported successfully into a separate, disposable MariaDB 10.6.28 instance bound to `127.0.0.1` on port 3307. The import was performed from the unchanged export; no production database connection was made. The isolated server was stopped after schema inspection.
-- Schema-only inspection found 101 base tables, 1,193 columns, 37 foreign-key constraints and 356 index-column entries. No application row contents were queried for this inventory.
+- On 2026-10-23, the unchanged export (SHA-256 `539F5A58D70076AB33C0D77EA617C0FD449788964DCF0D32AFF2DEEF9E9E325F`) imported successfully into a fresh database, `edtech_backup_verify_20261023_retry1`, on the isolated MariaDB 10.6.28 instance bound to `127.0.0.1:3307`. One earlier isolated attempt in this session stopped on a packet-size error and is incomplete; it was not overwritten. No production database connection was made.
+- Metadata inspection of the successful restore found 101 InnoDB base tables, 1,193 columns, 37 foreign-key constraints and 356 index-column entries. No application row contents or exact row counts were queried.
 - In the export, `events.id` is `INT UNSIGNED`; `events` is InnoDB. It contains `reminder_24h`, `reminder_1h` and `reminder_sent`, but not the event-reminder fields in the SQL artifact above. The artifact's original signed `event_id INT` could not form a foreign key to the unsigned `events.id`. A local test confirmed the FK succeeds when `event_id` is `INT UNSIGNED`. The legacy SQL artifact was corrected and pushed separately (`edtech-site` commit `884d3e6`).
-- The successful SQL import and schema inspection do not prove a complete recoverable backup: expected row/file counts were not independently reconciled, and no uploads backup or encryption-key custody evidence was verified. The two earlier failed local imports remain partial and must not be treated as valid restores.
+- The isolated MariaDB server was stopped after inspection. The successful and failed test databases remain in the private temporary instance data directory; they have not been dropped. This successful SQL-only restore does not prove a complete recoverable backup: expected row/file counts were not reconciled, and no uploads backup or encryption-key custody evidence was verified. Do not treat any partial test database as a valid restore.
 
 ## Domain candidates (not confirmed schema)
 
@@ -37,4 +37,4 @@ Code surfaces suggest candidate domains: users/staff/roles/permissions; ventures
 
 ## Required next step
 
-In the successful disposable restore, complete schema details and reconcile source-to-schema differences, including whether the reminder SQL has been applied in the authoritative database. Obtain expected table/row/file counts from the authorized operator and verify the uploads restore and encryption-key custody separately. Keep backup, credentials and confidential data outside this repository. Do not connect to production.
+Obtain expected table/row/file counts from the authorized operator and verify the uploads restore and encryption-key custody separately. Reconcile source-to-schema differences, including reminder SQL applied state, only in an authorized restored copy. Keep backup, credentials and confidential data outside this repository. Do not connect to production.
